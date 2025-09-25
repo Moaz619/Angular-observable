@@ -7,18 +7,18 @@
         style="height: 150px; overflow: hidden"
       >
         <img
-          [src]="prd.img"
-          [alt]="prd.name"
+          [src]="prd.image"
+          [alt]="prd.title"
           class="img-fluid pt-2"
           style="max-height: 100%; object-fit: contain"
         />
       </div>
       <div class="d-flex flex-column justify-content-between">
         <div class="card-body p-2">
-          <h5 class="card-title">{{ prd.name }}</h5>
+          <h5 class="card-title">{{ prd.title }}</h5>
           <p class="card-text mb-0 row text-center">
               <span class="">Price: {{ prd.price | currency }}</span>
-              <span class="">Items purchased: {{ prd.quantity }}</span>
+              <!-- <span class="">Items purchased: {{ prd.quantity }}</span> -->
           </p>
         </div>
       </div>

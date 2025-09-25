@@ -9,6 +9,7 @@ import { ProductDetails } from '../product-details/product-details';
 import { ProductService } from '../../services/product-service';
 import { CategoryService } from '../../services/category-service';
 import { Router } from '@angular/router';
+import { ProductServiceHttp } from '../../services/product-service-http';
 
 @Component({
   selector: 'app-product',
@@ -25,9 +26,14 @@ import { Router } from '@angular/router';
 })
 export class Product implements OnChanges, OnInit {
   // services
-  productService = inject(ProductService);
-  constructor(private categoryService: CategoryService) {}
+  // productService = inject(ProductService);
+
+  constructor(
+    private categoryService: CategoryService,
+    private productService: ProductServiceHttp
+  ) {}
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('change');
     this.filter();
   }
   // router
@@ -45,46 +51,56 @@ export class Product implements OnChanges, OnInit {
   // ii)Use 2-ways for Dependency Injection : Constructor and inject.
   ngOnInit(): void {
     this.categories = this.categoryService.getCategories();
-    this.products = this.productService.getProducts();
-    this.filteredProducts = this.products;
+    this.productService.getProducts().subscribe((response) => {
+      console.log(response);
+      this.products = response;
+    });
+    // this.filteredProducts = this.products;
   }
 
   // functions
   buy(prd: IProduct) {
-    if (prd.quantity > 2) prd.quantity -= 2;
-    else {
-      prd.quantity = 0;
-    }
-    this.productService.addToCart(prd);
+    // if (prd.quantity > 2) prd.quantity -= 2;
+    // else {
+    //   prd.quantity = 0;
+    // }
+    // this.productService.addToCart(prd);
   }
 
   //filtering
   filterByName() {
-    if (this.searchFilter.length > 0) {
-      this.filteredProducts = this.products.filter((prd: IProduct) =>
-        prd.name.toLocaleLowerCase().includes(this.searchFilter.toLowerCase())
-      );
-    } else {
-      this.filteredProducts = this.products;
-    }
+    // if (this.searchFilter.length > 0) {
+    //   this.filteredProducts = this.products.filter((prd: IProduct) =>
+    //     prd.title.toLocaleLowerCase().includes(this.searchFilter.toLowerCase())
+    //   );
+    // } else {
+    //   this.filteredProducts = this.products;
+    // }
   }
   filterByCategory() {
-    if (this.selectedCategoryId == 0) {
-      this.filteredProducts = this.filteredProducts;
-      this.selectFilter = 'All items';
-    } else {
-      this.filteredProducts = this.filteredProducts.filter(
-        (prd: IProduct) => prd.cateogryID == this.selectedCategoryId
-      );
-      const catName: string | undefined = this.categories.find(
-        (cat: ICategory) => cat.id == this.selectedCategoryId
-      )?.name;
-      this.selectFilter = catName ? catName : 'invalid filter';
-    }
+    // if (this.selectedCategoryId == 0) {
+    //   this.filteredProducts = this.filteredProducts;
+    //   this.selectFilter = 'All items';
+    // } else {
+    //   this.filteredProducts = this.filteredProducts.filter(
+    //     (prd: IProduct) => prd.category == this.selectedCategoryId.toString()
+    //   );
+    //   const catName: string | undefined = this.categories.find(
+    //     (cat: ICategory) => cat.id == this.selectedCategoryId
+    //   )?.name;
+    //   this.selectFilter = catName ? catName : 'invalid filter';
+    // }
   }
   filter() {
-    this.filterByName();
-    this.filterByCategory();
+    if (this.searchFilter.length > 0) {
+      this.productService.searchProducts(this.searchFilter).subscribe((res) => {
+        this.filteredProducts = res.products.map((resPrd: any) => ({
+          ...resPrd,
+          image: resPrd.images[0],
+        }));
+        console.log(this.filteredProducts[0]);
+      });
+    }
   }
 
   showDetails(prd: IProduct) {

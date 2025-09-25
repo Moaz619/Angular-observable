@@ -1,9 +1,12 @@
-    export interface IProduct {
-        id:number,
-        name:string,
-        quantity:number,
-        price:number,
-        img:string,
-        cateogryID:Number,
-        displayDetails:boolean
-    }
+export interface IProduct {
+  id: number;
+  title: string;
+  //   quantity: number;
+  price: number;
+  description: string;
+  category: string;
+  image?: string;
+  images?: string;
+  // displayDetails:boolean
+}
+

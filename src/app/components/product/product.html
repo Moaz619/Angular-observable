@@ -1,5 +1,5 @@
 <div class="row container-fluid">
-  @for (prd of filteredProducts; track prd.id) {
+  @for (prd of searchFilter?filteredProducts:products; track prd.id) {
   <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex mt-3">
     <div class="card flex-fill text-center" appShawdowBorder>
       <div
@@ -7,23 +7,23 @@
         style="height: 150px; overflow: hidden"
       >
         <img
-          [src]="prd.img"
-          [alt]="prd.name"
+          [src]="prd.image"
+          [alt]="prd.title"
           class="img-fluid pt-2"
           style="max-height: 100%; object-fit: contain"
         />
       </div>
       <div class="d-flex flex-column justify-content-between">
         <div class="card-body p-2">
-          <h5 class="card-title">{{ prd.name }}</h5>
+          <h5 class="card-title">{{ prd.title.length>20?prd.title.slice(0,20):prd.title}}</h5>
           <p class="card-text mb-0 row text-center mx-1">
             <span class="col-6">Price: {{ prd.price | currency }}</span>
-            <span class="col-6">Quantity: {{ prd.quantity }}</span>
+            <!-- <span class="col-6">Quantity: {{ prd.quantity }}</span> -->
           </p>
         </div>
       </div>
       <!-- <div class="card-text mb-0 row text-center mx-4"> -->
-        @switch(prd.quantity) { @case(0){
+      <!-- @switch(prd.quantity) { @case(0){
         <p class="m-0 p-0 text-danger">out of stock</p>
         } @case(1){
         <p class="m-0 p-0 text-danger-emphasis">last one item</p>
@@ -31,22 +31,13 @@
         <p class="m-0 p-0 text-warning">last two item</p>
         } @default{
         <p class="m-0 p-0 text-success">in stock</p>
-        } }
+        } } -->
       <!-- </div> -->
       <div class="row d-flex justify-content-center">
-        <input
-          type="button"
-          class="btn btn-primary col-4 m-2"
-          value="buy"
-          [disabled]="prd.quantity == 0"
-          (click)="buy(prd)"
-        />
-        <input
-        type="button"
-        class="btn btn-secondary col-4 m-2"
-        value="details"
-        (click)="showDetails(prd)"
-        />
+        <input type="button" class="btn btn-primary col-4 m-2" value="buy" />
+        <!-- [disabled]="prd.quantity == 0" -->
+        <input type="button" class="btn btn-secondary col-4 m-2" value="details" />
+        <!-- (click)="showDetails(prd)" -->
       </div>
       <!-- day 3 task
       @if(!prd.displayDetails){

@@ -26,7 +26,7 @@ export class ShoppingCart implements OnInit {
 
   calculateTotalPrice() {
     for (let prd of this.cartProducts) {
-      this.totalPrice += prd.price * prd.quantity;
+      // this.totalPrice += prd.price * prd.quantity;
     }
   }
 }

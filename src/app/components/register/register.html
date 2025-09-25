@@ -1,0 +1,207 @@
+<section class="my-2">
+  <div class="mask d-flex flex-fill align-items-center gradient-custom-3">
+    <div class="container">
+      <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px">
+            <div class="card-body p-5">
+              <h2 class="text-uppercase text-center mb-2">Create an account</h2>
+
+              <form [formGroup]="registerFormControls" (ngSubmit)="submitForm()">
+                <div data-mdb-input-init class="form-outline mb-2">
+                  <label class="form-label" for="name">Full name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    class="form-control"
+                    formControlName="name"
+                    [class.is-valid]="getName()?.valid && getName()?.touched"
+                    [class.is-invalid]="getName()?.invalid && getName()?.touched"
+                  />
+                  @if(getName()?.valid && getName()?.touched){
+                  <div class="valid-feedback">valid</div>
+
+                  }@else if(getName()?.invalid && getName()?.touched){
+                  <div class="invalid-feedback">invalid</div>
+
+                  }
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-2">
+                  <label class="form-label" for="email">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    class="form-control"
+                    formControlName="email"
+                    [class.is-valid]="getEmail()?.valid && getEmail()?.touched"
+                    [class.is-invalid]="getEmail()?.invalid && getEmail()?.touched"
+                  />
+                  @if(getEmail()?.valid && getEmail()?.touched){
+                  <div class="valid-feedback">email is valid</div>
+
+                  }@else if(getEmail()?.invalid && getEmail()?.touched){
+                  <div class="invalid-feedback">enter a valid email</div>
+
+                  }
+                </div>
+
+                <div formArrayName="phones" data-mdb-input-init class="form-outline mb-2">
+                  @for (phone of phonesArray.controls; track $index) {
+
+                  <label class="form-label">Phone number</label>
+                  <div class="row">
+                    <div class="col-10">
+                      <input
+                        type="tel"
+                        class="form-control"
+                        [formControlName]="$index"
+                        [class.is-valid]="phone?.valid && phone?.touched"
+                        [class.is-invalid]="phone?.invalid && phone?.touched"
+                      />
+                      @if(phone?.valid && phone?.touched){
+                      <div class="valid-feedback">phone is valid</div>
+
+                      }@else if(phone?.invalid && phone?.touched){
+                      <div class="invalid-feedback">
+                        enter a valid phone number (start with 01 and has 11 digits)
+                      </div>
+
+                      }
+                    </div>
+                    <div class="col-2">
+                      @if($index == 0){
+                      <button
+                        type="button"
+                        class="btn btn-primary text-body-secondary"
+                        (click)="addPhone()"
+                      >
+                        ➕
+                      </button>
+                      }@else {
+                      <button
+                        class="btn btn-primary text-body-secondary"
+                        (click)="removePhone($index)"
+                      >
+                        ➖
+                      </button>
+                      }
+                    </div>
+                  </div>
+                  }
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-2">
+                  <label class="form-label" for="pass">Password</label>
+                  <div class="row">
+                    <div class="col-12">
+                      <input
+                        type="password"
+                        id="pass"
+                        class="form-control"
+                        formControlName="password"
+                        [class.is-valid]="getPassword()?.valid && getPassword()?.touched"
+                        [class.is-invalid]="getPassword()?.invalid && getPassword()?.touched"
+                      />
+                      @if(getPassword()?.valid && getPassword()?.touched){
+                      <div class="valid-feedback">password is valid</div>
+
+                      }@else if(getPassword()?.invalid && getPassword()?.touched){
+                      <div class="invalid-feedback">
+                        password is required and should be atleast 6 charcters
+                      </div>
+
+                      }
+                    </div>
+                    <!-- <div class="col-2">
+                      <button class="btn text-body-secondary">👁</button>
+                    </div> -->
+                  </div>
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-3">
+                  <label class="form-label" for="fconfirmpass">Confirm password</label>
+                  <div class="row">
+                    <div class="col-12">
+                      <input
+                        type="password"
+                        id="confirmpass"
+                        class="form-control"
+                        formControlName="confirmPassword"
+                        [class.is-valid]="
+                          getConfirmPassword()?.valid &&
+                          getConfirmPassword()?.touched &&
+                          !registerFormControls.errors
+                        "
+                        [class.is-invalid]="
+                          (getConfirmPassword()?.invalid || registerFormControls.errors) &&
+                          getConfirmPassword()?.touched
+                        "
+                      />
+                      @if(getConfirmPassword()?.valid && getConfirmPassword()?.touched &&
+                      !registerFormControls.errors){
+                      <div class="valid-feedback">passwords match</div>
+                      }@else if(getConfirmPassword()?.touched){ @if(getConfirmPassword()?.invalid){
+                      <div class="invalid-feedback">
+                        password is required and should be atleast 6 charcters
+                      </div>
+                      }@else if(registerFormControls.errors){
+                      <div class="invalid-feedback">both passwords should match</div>
+                      } }
+                    </div>
+                    <!-- <div class="col-2">
+                      <button class="btn text-body-secondary">👁</button>
+                    </div> -->
+                  </div>
+                </div>
+                <div class="row my-2">
+                  <div class="d-flex justify-content-center col-6">
+                    <button
+                      type="reset"
+                      data-mdb-button-init
+                      data-mdb-ripple-init
+                      class="btn btn-danger btn-block btn-lg gradient-custom-4 text-body"
+                    >
+                      reset
+                    </button>
+                  </div>
+                  <div class="d-flex justify-content-center col-6">
+                    <button
+                      type="submit"
+                      data-mdb-button-init
+                      data-mdb-ripple-init
+                      class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
+                      [disabled]="registerFormControls.invalid"
+                    >
+                      Register
+                    </button>
+                  </div>
+                </div>
+
+                <p class="text-center text-muted mt-2 mb-0">
+                  Have already an account?
+                  <a routerLink="/login" class="fw-bold text-body"><u>Login here</u></a>
+                </p>
+              </form>
+            </div>
+          </div>
+          @if(isRegistered) {
+
+          <div class="card mt-3">
+            <div class="card-body">
+              <h4 class="text-center">Account details</h4>
+              <p class="card-text">Welcome {{ userData ? userData['name'] : '' }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Email: {{ userData ? userData['email'] : '' }}</li>
+              @for (ph of userData?getPhoneDisplay():[] ; track $index) {
+              <li class="list-group-item">phone number {{ $index + 1 }}: {{ ph }}</li>
+              }
+            </ul>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

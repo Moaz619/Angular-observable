@@ -1,0 +1,111 @@
+<section class="h-75 gradient-custom">
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center align-items-center">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card text-black" style="border-radius: 1rem">
+          <div class="card-body px-5 pt-5 pb-3">
+            <form
+              [formGroup]="loginFormControl"
+              (ngSubmit)="onSubmit()"
+              class="mb-md-2 mt-md-2 pb-2"
+            >
+              <h2 class="fw-bold mb-2 text-uppercase text-center">Login</h2>
+              <p class="text-black-50 mb-2 text-center">Please enter your email and password!</p>
+
+              <div data-mdb-input-init class="form-outline form-white mb-2">
+                <label class="form-label" for="typeEmailX">Email</label>
+                <input
+                  type="email"
+                  id="typeEmailX"
+                  class="form-control form-control-lg"
+                  formControlName="email"
+                  [class.is-valid]="getEmail()?.valid && getEmail()?.touched"
+                  [class.is-invalid]="getEmail()?.invalid && getEmail()?.touched"
+                />
+                @if(getEmail()?.valid && getEmail()?.touched){
+                <div class="valid-feedback">email is valid</div>
+
+                }@else if(getEmail()?.invalid && getEmail()?.touched){
+                <div class="invalid-feedback">enter a valid email</div>
+
+                }
+              </div>
+
+              <div data-mdb-input-init class="form-outline form-white mb-2">
+                <label class="form-label" for="typePasswordX">Password</label>
+                <input
+                  type="password"
+                  id="typePasswordX"
+                  class="form-control form-control-lg"
+                  formControlName="password"
+                  [class.is-valid]="getPassword()?.valid && getPassword()?.touched"
+                  [class.is-invalid]="getPassword()?.invalid && getPassword()?.touched"
+                />
+                @if(getPassword()?.valid && getPassword()?.touched){
+                <div class="valid-feedback">password is valid</div>
+
+                }@else if(getPassword()?.invalid && getPassword()?.touched){
+                <div class="invalid-feedback">
+                  password is required and should be atleast 6 charcters
+                </div>
+
+                }
+              </div>
+
+              <!-- <p class="small mb-3 pb-lg-2">
+                <a class="text-black-50" href="#!">Forgot password?</a>
+              </p> -->
+              <div class="row">
+                <div class="text-center mt-3 col-6">
+                  <button
+                    data-mdb-button-init
+                    data-mdb-ripple-init
+                    class="btn btn-outline-danger btn-lg px-5"
+                    type="reset"
+                  >
+                    reset
+                  </button>
+                </div>
+                <div class="text-center mt-3 col-6">
+                  <button
+                    data-mdb-button-init
+                    data-mdb-ripple-init
+                    class="btn btn-outline-dark btn-lg px-5"
+                    type="submit"
+                    [disabled]="loginFormControl.invalid"
+                  >
+                    Login
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <div class="text-center">
+              <p class="mb-0">
+                Don't have an account?
+                <a routerLink="/register" class="text-black-50 fw-bold">Sign Up</a>
+              </p>
+            </div>
+          </div>
+          @if(!correctData){
+          <div class="card-body">
+            <p class="card-title text-danger text-center">email or password are incorrect</p>
+          </div>
+
+          }
+        </div>
+        @if(isLogged) {
+        <div class="card mt-3">
+          <div class="card-body">
+            <h4 class="text-center">Account details</h4>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Email: {{ userData ? userData['email'] : '' }}</li>
+            <li class="list-group-item">Password: {{ userData ? userData['password'] : '' }}</li>
+          </ul>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

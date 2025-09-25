@@ -1,0 +1,101 @@
+<div class="row container-fluid">
+  @for (prd of filteredProducts; track prd.id) {
+  <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex mt-3">
+    <div class="card flex-fill text-center" appShawdowBorder>
+      <div
+        class="d-flex align-items-center justify-content-center"
+        style="height: 150px; overflow: hidden"
+      >
+        <img
+          [src]="prd.img"
+          [alt]="prd.name"
+          class="img-fluid pt-2"
+          style="max-height: 100%; object-fit: contain"
+        />
+      </div>
+      <div class="d-flex flex-column justify-content-between">
+        <div class="card-body p-2">
+          <h5 class="card-title">{{ prd.name }}</h5>
+          <p class="card-text mb-0 row text-center mx-1">
+            <span class="col-6">Price: {{ prd.price | currency }}</span>
+            <span class="col-6">Quantity: {{ prd.quantity }}</span>
+          </p>
+        </div>
+      </div>
+      <!-- <div class="card-text mb-0 row text-center mx-4"> -->
+        @switch(prd.quantity) { @case(0){
+        <p class="m-0 p-0 text-danger">out of stock</p>
+        } @case(1){
+        <p class="m-0 p-0 text-danger-emphasis">last one item</p>
+        } @case(2){
+        <p class="m-0 p-0 text-warning">last two item</p>
+        } @default{
+        <p class="m-0 p-0 text-success">in stock</p>
+        } }
+      <!-- </div> -->
+      <div class="row d-flex justify-content-center">
+        <input
+          type="button"
+          class="btn btn-primary col-4 m-2"
+          value="buy"
+          [disabled]="prd.quantity == 0"
+          (click)="buy(prd)"
+        />
+        <input
+        type="button"
+        class="btn btn-secondary col-4 m-2"
+        value="details"
+        (click)="showDetails(prd)"
+        />
+      </div>
+      <!-- day 3 task
+      @if(!prd.displayDetails){
+      }
+      @if(prd.displayDetails){
+      <app-product-details
+        [product]="prd"
+        (closeDetails)="hideDetails($event)"
+      ></app-product-details>
+      } -->
+    </div>
+  </div>
+  }@empty {
+  <h5 class="text-danger fs-3 text-center m-2">No items found</h5>
+  }
+</div>
+
+<!-- <nav class="navbar navbar-expand-sm bg-secondary">
+  <div class="collapse navbar-collapse" id="collapsibleNavId">
+    <ul class="navbar-nav mt-2 mt-lg-0 container">
+      <li class="nav-item dropdown col-6">
+        <select
+          class="form-select text-black"
+          [(ngModel)]="selectedCategoryId"
+          (change)="filterByCategory(selectedCategoryId)"
+          >
+          <option [ngValue]="0">All items</option>
+
+
+          @for(cat of categories; track cat.id) {
+          <option [ngValue]="cat.id">{{ cat.name }}</option>
+          }
+        </select>
+      </li>
+      <li class="nav-item col-6">
+        <input
+          class="form-control me-sm-2"
+          type="text"
+          placeholder="Search"
+          [(ngModel)]="searchFilter"
+          (ngModelChange)="filterByName()"
+        />
+      </li>
+      <li class="nav-item col-3 text-center mt-2">
+        <h6 class="">{{ '1234567854429632' | creditCardFormat }}</h6>
+      </li>
+      <li class="nav-item col-3 text-center mt-2">
+        <h6 class="">{{ currentDate | date : 'medium' }}</h6>
+      </li>
+    </ul>
+  </div>
+</nav> -->

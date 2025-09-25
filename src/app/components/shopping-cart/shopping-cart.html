@@ -1,0 +1,41 @@
+<div class="row container-fluid d-flex justify-content-center">
+  @for (prd of cartProducts; track prd.id) {
+  <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex mt-3">
+    <div class="card flex-fill text-center" appShawdowBorder>
+      <div
+        class="d-flex align-items-center justify-content-center"
+        style="height: 150px; overflow: hidden"
+      >
+        <img
+          [src]="prd.img"
+          [alt]="prd.name"
+          class="img-fluid pt-2"
+          style="max-height: 100%; object-fit: contain"
+        />
+      </div>
+      <div class="d-flex flex-column justify-content-between">
+        <div class="card-body p-2">
+          <h5 class="card-title">{{ prd.name }}</h5>
+          <p class="card-text mb-0 row text-center">
+              <span class="">Price: {{ prd.price | currency }}</span>
+              <span class="">Items purchased: {{ prd.quantity }}</span>
+          </p>
+        </div>
+      </div>
+      <!-- <div class="card-text mb-0 row text-center mx-4"> -->
+      <!-- </div> -->
+      <div class="row d-flex justify-content-center">
+        <input
+          type="button"
+          class="btn btn-secondary col-4 m-2"
+          value="details"
+          [routerLink]="['/products',prd.id]"
+        />
+      </div>
+    </div>
+  </div>
+  }@empty {
+  <h5 class="text-danger fs-3 text-center m-2">No items found</h5>
+  }
+  <h6 class="text-center mt-3">Total price: {{totalPrice | currency}}</h6>
+</div>

@@ -1,0 +1,55 @@
+<div class="d-flex align-items-center flex-column">
+  <h3>Product Details</h3>
+  <div class="card col-4">
+    <div
+      class="d-flex align-items-center justify-content-center"
+      style="height: 250px; overflow: hidden"
+    >
+      <img
+        [src]="currentProduct.img"
+        [alt]="currentProduct.name"
+        class="img-fluid pt-2"
+        style="max-height: 100%; object-fit: contain"
+      />
+    </div>
+    <h5 class="card-title text-center">{{ currentProduct.name }}</h5>
+    <div class="d-flex flex-column justify-content-between container">
+      <div class="card-body p-2">
+        <p class="card-text mb-0 row text-center mx-3">
+          <span class="">Price: {{ currentProduct.price | currency }}</span>
+          <span class="">Quantity: {{ currentProduct.quantity }}</span>
+        </p>
+      </div>
+    </div>
+    <div class="text-center pb-3">
+      @switch(currentProduct.quantity) { @case(0){
+      <p class="m-0 p-0 text-danger">out of stock</p>
+      } @case(1){
+      <p class="m-0 p-0 text-danger-emphasis">last one item</p>
+      } @case(2){
+      <p class="m-0 p-0 text-warning">last two item</p>
+      } @default{
+      <p class="m-0 p-0 text-success">in stock</p>
+      } }
+    </div>
+  </div>
+  <div class="text-center w-25">
+
+    @if(activateInterval){
+    <app-clock></app-clock>
+    <input
+      type="button"
+      class="btn btn-danger col-4 m-2"
+      value="Hide"
+      (click)="activateInterval = false"
+    />
+    }@else{
+    <input
+      type="button"
+      class="btn btn-primary col-4 m-2"
+      value="Show"
+      (click)="activateInterval = true"
+    />
+    }
+  </div>
+</div>
